@@ -1,8 +1,7 @@
+p_classcode="SPBFUT" --Код класса
 
+p_seccode="SRH9" --Код инструмента TQBR   SBER
 
-p_classcode="TQBR" --Код класса
-
-p_seccode="ROSN" --Код инструмента    
 
 
 is_run=true
@@ -10,22 +9,29 @@ is_run=true
 count=1
 
 function main()
+
       while is_run do
+
             sleep(10000)
+
             --message("Hello, World! №"..tostring(count),1)
+
             count=count+1
       end
 end
 function OnStop(stop_flag)
 
       is_run=false
+
 end
+
 function OnQuote(class_code, sec_code)
---message(class_code.."   "..sec_code,1);
+-- message(class_code.."   "..sec_code,1);
+
 		if class_code==p_classcode and sec_code==p_seccode then
-  			l_file=io.open("E:\\HistoryQuick\\HistoryRosn\\01\\28\\HistoryRosn28012019.txt", "a")
+     
+  			l_file=io.open("E:\\HistoryQuick\\HistorySrh\\02\\01\\HistorySrh01022019.txt", "a")
  			tb=getQuoteLevel2(class_code, sec_code)
-        tb=getQuoteLevel2(class_code, sec_code)
       local k ="\n".."Time - "..os.date().."\n".."|BID|"
       
             for i=1,tb.bid_count,1 do

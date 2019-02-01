@@ -1,7 +1,6 @@
-p_classcode="SPBFUT" --Код класса
+p_classcode="TQBR" --Код класса
 
-p_seccode="RIH9" --Код инструмента    
-
+p_seccode="SBER" --Код инструмента    
 
 is_run=true
 
@@ -23,24 +22,25 @@ function OnStop(stop_flag)
       is_run=false
 
 end
-
 function OnQuote(class_code, sec_code)
---message(class_code.."   "..sec_code,1);
+-- message(class_code.."   "..sec_code,1);
+
 		if class_code==p_classcode and sec_code==p_seccode then
-  			l_file=io.open("E:\\HistoryQuick\\HistoryRih\\01\\28\\HistoryRih28012019.txt", "a")
+  			
+        l_file=io.open("E:\\HistoryQuick\\HistorySber\\02\\01\\HistorySber01022019.txt", "a")
  			tb=getQuoteLevel2(class_code, sec_code)
- 			local k ="\n".."Time - "..os.date().."\n".."|BID|"
- 			
+      local k ="\n".."Time - "..os.date().."\n".."|BID|"
+      
             for i=1,tb.bid_count,1 do
                   k=k..(tostring(tb.bid[i].price).." : "..
                         tostring(tb.bid[i].quantity)..";")
-            end	
+            end 
             k=k.."|OFFER|"
             for i=1,tb.offer_count,1 do
                  k=k..(tostring(tb.offer[i].price).." : "..
                         tostring(tb.offer[i].quantity)..";")
-            end        	
+            end         
             l_file:write(k)
             l_file:close()
-		end
+    end
 end

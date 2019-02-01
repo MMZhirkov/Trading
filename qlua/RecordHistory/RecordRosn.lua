@@ -1,11 +1,8 @@
 
---TQBR   VTBR
---TQBR   GMKN
---TQBR   ROSN
 
 p_classcode="TQBR" --Код класса
 
-p_seccode="VTBR" --Код инструмента    
+p_seccode="ROSN" --Код инструмента    
 
 
 is_run=true
@@ -26,7 +23,8 @@ end
 function OnQuote(class_code, sec_code)
 --message(class_code.."   "..sec_code,1);
 		if class_code==p_classcode and sec_code==p_seccode then
-  			l_file=io.open("E:\\HistoryQuick\\HistoryVtbr\\01\\28\\HistoryVtbr28012019.txt", "a")
+  		
+      	l_file=io.open("E:\\HistoryQuick\\HistoryRosn\\02\\01\\HistoryRosn01022019.txt", "a")
  			tb=getQuoteLevel2(class_code, sec_code)
         tb=getQuoteLevel2(class_code, sec_code)
       local k ="\n".."Time - "..os.date().."\n".."|BID|"

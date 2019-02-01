@@ -1,6 +1,7 @@
 p_classcode="TQBR" --Код класса
 
-p_seccode="SBER" --Код инструмента    
+p_seccode="GAZP" --Код инструмента    
+
 
 is_run=true
 
@@ -23,12 +24,12 @@ function OnStop(stop_flag)
 
 end
 function OnQuote(class_code, sec_code)
--- message(class_code.."   "..sec_code,1);
-
+--message(class_code.."   "..sec_code,1);
 		if class_code==p_classcode and sec_code==p_seccode then
-  			l_file=io.open("E:\\HistoryQuick\\HistorySber\\01\\28\\HistorySber28012019.txt", "a")
+      
+  			l_file=io.open("E:\\HistoryQuick\\HistoryGazp\\02\\01\\HistoryGazp01022019.txt", "a")
  			tb=getQuoteLevel2(class_code, sec_code)
-      local k ="\n".."Time - "..os.date().."\n".."|BID|"
+       k ="\n".."Time - "..os.date().."\n".."|BID|"
       
             for i=1,tb.bid_count,1 do
                   k=k..(tostring(tb.bid[i].price).." : "..
@@ -41,5 +42,5 @@ function OnQuote(class_code, sec_code)
             end         
             l_file:write(k)
             l_file:close()
-    end
+		end
 end
