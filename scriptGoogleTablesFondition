@@ -1,0 +1,62 @@
+
+ function Funding() {
+  //Забираем листы
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheetVolumeСurrency = ss.getSheetByName('Нужно в валюте');
+  var sheetVolumeQuery = ss.getSheetByName('Нужно в биткоине');
+ 
+  //Забираем список валюты для которой нужно кол-во
+  var rangeListСurrency = sheetVolumeСurrency.getRange("A2:A140").getValues();
+  var rangeСurrencyVolume = sheetVolumeQuery.getRange("A2:C140").getValues();
+  var rangeListValue = [];
+  var n =1;
+ for (var i = 0; i < rangeListСurrency.length; i++) {
+   if(rangeListСurrency[i]!=0){
+     //массив для сбора результатов поиска по парам
+     var resultPairs = [];
+     //find 
+     for (var k = 0; k < rangeСurrencyVolume.length; k++) {   
+       var nameCurrency = rangeListСurrency[i] + "_";
+       var gt = String(rangeСurrencyVolume[k]).indexOf(nameCurrency);
+       if(gt!=-1)
+       {  if(gt==0)
+       {
+         resultPairs.push(String(rangeСurrencyVolume[k]+",Main"));
+       }
+        else{
+          resultPairs.push(String(rangeСurrencyVolume[k]+",Second"));
+        } 
+       }
+     }
+     var volumeCurrency= SumСurrency(resultPairs);
+     
+     //rangeListValue.push(volumeCurrency);
+     n++;
+     sheetVolumeСurrency.getRange(n,2).setValue(volumeCurrency);
+     Logger.log(volumeCurrency);
+   }
+  }
+}
+function SumСurrency(resultPairs) {
+  var x;
+  var sum=0;
+  var exchangeRate=0;
+  for (k=0; k < resultPairs.length; k++){
+    var str =  resultPairs[k].split(",");
+    var hz =  str[0].indexOf("_BTC");
+    if(str[0].indexOf("_BTC")!=-1)
+    {
+      sum =sum + Number(str[1]);
+      exchangeRate = Number(str[2]);
+    }else if(str[3]=="Main")
+    {
+      sum =sum + Number(str[1]);
+    }    
+  }
+  if(exchangeRate==0)
+  {
+    exchangeRate=1;
+  }
+  x= sum /exchangeRate;
+  return  x;
+}
