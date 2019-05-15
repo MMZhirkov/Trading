@@ -1,0 +1,59 @@
+local trans_id = os_time()
+local classcode = "SPBFUT"
+local account = "SPBFUT00123"
+local security = "RIM6"
+local function SetOrder(
+ operation, -- Операция ('B' - buy, 'S' - sell)
+ qty, -- Количество
+ price, -- Цена
+ exp_date -- Дата экспирации в формате ГГГГММДД
+)
+ -- Выставляет лимитированную заявку
+ local Res = ''
+ if operation == nil or qty == nil or price == nil then
+ Res = "Не заданы обязательные параметры для транзакции"
+ return 0, Res
+ end
+ local Transaction={}
+ -- Получает ID для следующей транзакции
+ local trans_id = trans_id+1
+ local operation_l = ""
+ if operation == "B" then
+ operation_l = "Покупка"
+ else
+ operation_l = "Продажа"
+ end
+ -- Заполняет структуру для отправки транзакции
+ Transaction=
+ { 
+ ["TRANS_ID"] = tostring(trans_id), 
+ ["CLASSCODE"] = classcode, 
+ ["ACTION"] = "Ввод заявки",
+ ["Класс"] = classcode 
+ ["Инструмент"] = security, 
+ ["Торговый счет"] = account, 
+ ["Тип"] = "Лимитированная", 
+ ["К/П"] = operation_l, 
+ ["Цена"] = tostring(price), 
+ ["Количество"] = tostring(qty), 
+ ["Условие исполнения"] = "Поставить в очередь", 
+ ["Комментарий"] = ""
+ } 
+ if exp_date~=nil then
+ Transaction['Переносить заявку']='Да'
+ Transaction['Дата экспирации']=tostring(exp_date)
+ end 
+ if classcode=="SPBOPT" then
+ Transaction['Проверять лимиты']="Нет"
+ end 
+ -- Отправляет транзакцию
+ Res = sendTransaction(Transaction)
+ -- Если при отправке транзакции возникла ошибка
+ if Res ~= '' then
+ Res = "Ошибка транзакции "..trans_id.." "..Res
+ return 0, Res
+ end
+ Res = nil
+ -- Если транзакция отправлена, возвращает ее номер
+ return trans_id,Res
+end
