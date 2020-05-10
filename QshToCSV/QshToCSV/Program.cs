@@ -15,30 +15,20 @@ namespace QshToCSV
     {
         static void Main(string[] args)
         {
-            //Settings set = new Settings();
-            //set.ReadSettings();
-            //ConvertFile(fileName, format);
-            WriteY();
-            Console.WriteLine("ASD");
+            
 
-            Console.WriteLine("vAH");
-            while (true)
-                Console.Write("x"); // Все время печатать 'x'
+            var fileName = "E:\\Download\\test\\SBER.2019-12-18.Quotes.qsh";
+
+            ConvertFile(fileName);
 
             Console.ReadKey();
         }
-        static void WriteY()
+
+        private static void ConvertFile(string fileName)
         {
-            while (true)
-                Console.Write("y"); // Все время печатать 'y'
-        }
+            var quotesForRecord = new List<Tuple<string, string, string>>();
 
-
-        private static void ConvertFile(string fileName, string format)
-        {
-            List<string> Quotes = new List<string>();
-
-            var fileNameKey = format + "_" + fileName;
+            var fileNameKey = "Csv_" + fileName;
 
             //read .qsh file
             using (var qr = QshReader.Open(fileName))
@@ -54,43 +44,53 @@ namespace QshToCSV
                     {
                         case StreamType.Quotes:
                             {
-                                    ((IQuotesStream)stream).Handler += quotes =>
-                                    {
-                                        string s = "";
+                                ((IQuotesStream)stream).Handler += quotes =>
+                                {
+                                    var s = string.Empty;
 
-                                        foreach (var item in quotes)
-                                        {
-                                            s = s + "||" + item.Price.ToString() +";" + item.Type.ToString() + ";" + item.Volume.ToString();
-                                        }
-                                        s = s.Remove(0,2) + "||" + qr.CurrentDateTime.ToString();
-                                        Quotes.Add(s);
+                                    foreach (var item in quotes)
+                                    {
+                                        s = s + "||" + item.Price.ToString() + ";" + item.Type.ToString() + ";" + item.Volume.ToString();
+                                    }
+
+                                    s = s.Remove(0, 2) + "||" + qr.CurrentDateTime.ToLocalTime().ToString();
+                                    //quotesForRecord.Add(s);
+
+                                    var asdn = quotes.Select(q => new
+                                    {
+                                       type = q.Type.ToString(),
                                         
-                                    };
+                                    }).ToList();
+
+
+                                   
+                                };
+
                                 break;
                             }
                         case StreamType.Deals:
                             {
-                                //    ((IDealsStream)stream).Handler += deal =>
-                                //    {
-                                //        secData.Item2.Add(new ExecutionMessage
-                                //        {
-                                //            LocalTime = reader.CurrentDateTime.ApplyTimeZone(TimeHelper.Moscow),
-                                //            HasTradeInfo = true,
-                                //            ExecutionType = ExecutionTypes.Tick,
-                                //            SecurityId = securityId,
-                                //            OpenInterest = deal.OI == 0 ? (long?)null : deal.OI,
-                                //            ServerTime = deal.DateTime.ApplyTimeZone(TimeHelper.Moscow),
-                                //            TradeVolume = deal.Volume,
-                                //            TradeId = deal.Id == 0 ? (long?)null : deal.Id,
-                                //            TradePrice = deal.Price,
-                                //            OriginSide =
-                                //                deal.Type == DealType.Buy
-                                //                    ? Sides.Buy
-                                //                    : (deal.Type == DealType.Sell ? Sides.Sell : (Sides?)null)
-                                //        });
+                                    ((IDealsStream)stream).Handler += deal =>
+                                    {
+                                        secData.Item2.Add(new ExecutionMessage
+                                        {
+                                            LocalTime = reader.CurrentDateTime.ApplyTimeZone(TimeHelper.Moscow),
+                                            HasTradeInfo = true,
+                                           ExecutionType = ExecutionTypes.Tick,
+                                            SecurityId = securityId,
+                                            OpenInterest = deal.OI == 0 ? (long?)null : deal.OI,
+                                           ServerTime = deal.DateTime.ApplyTimeZone(TimeHelper.Moscow),
+                                            TradeVolume = deal.Volume,
+                                            TradeId = deal.Id == 0 ? (long?)null : deal.Id,
+                                            TradePrice = deal.Price,
+                                            OriginSide =
+                                                deal.Type == DealType.Buy
+                                                    ? Sides.Buy
+                                                    : (deal.Type == DealType.Sell ? Sides.Sell : (Sides?)null)
+                                        });
 
-                                //        TryFlushData(registry, security, format, ExecutionTypes.Tick, secData.Item2, reader);
-                                //    };
+                                        TryFlushData(registry, security, format, ExecutionTypes.Tick, secData.Item2, reader);
+                                    };
                                 break;
                             }
                         default:
@@ -102,10 +102,11 @@ namespace QshToCSV
                 { qr.Read(true); }
 
             }
-            TryFlushData(Quotes);
+            TryFlushData(quotesForRecord);
         }
+
         //record file result
-        private static void TryFlushData(List<string> Quotes)
+        private static void TryFlushData(List<Tuple<string, string, string>> Quotes)
         {
             try
             {
@@ -113,7 +114,7 @@ namespace QshToCSV
                 {
                     using (var wr = new StreamWriter(str))
                     {
-                        foreach (string st in Quotes)
+                        foreach (var st in Quotes)
                         {
                             wr.WriteLine(st);
                         }

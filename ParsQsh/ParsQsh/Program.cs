@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
-using System.Drawing;
 using System.IO;
 
 namespace ParsQsh
@@ -89,6 +85,7 @@ namespace ParsQsh
             Console.ReadKey();
         }
     }
+
     struct equityURL
     {
         public string pathUrl { get; set; }
@@ -99,6 +96,7 @@ namespace ParsQsh
             this.nameFolder = nameFolder;
         }
     }
+
     struct dayUrl
     {
         public string url { get; set; }
