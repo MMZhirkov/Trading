@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinanceFlushMarketData", "BinanceFlushMarketData.csproj", "{7277015F-6C2A-4E67-8E02-8142528A6BEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binance", "Binance\Binance.csproj", "{AE70E87C-9D02-4399-931D-368009023E36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binance", "..\Binance\Binance.csproj", "{C81372A4-69FF-42E8-A450-4959337B631B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{7277015F-6C2A-4E67-8E02-8142528A6BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7277015F-6C2A-4E67-8E02-8142528A6BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7277015F-6C2A-4E67-8E02-8142528A6BEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE70E87C-9D02-4399-931D-368009023E36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE70E87C-9D02-4399-931D-368009023E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE70E87C-9D02-4399-931D-368009023E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE70E87C-9D02-4399-931D-368009023E36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C81372A4-69FF-42E8-A450-4959337B631B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C81372A4-69FF-42E8-A450-4959337B631B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C81372A4-69FF-42E8-A450-4959337B631B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C81372A4-69FF-42E8-A450-4959337B631B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
