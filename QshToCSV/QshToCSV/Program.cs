@@ -63,10 +63,7 @@ namespace QshToCSV
                 {
                     using (var wr = new StreamWriter(str))
                     {
-                        foreach (string st in Quotes)
-                        {
-                            wr.WriteLine(st);
-                        }
+                        Quotes.ForEach(st => wr.WriteLine(st));
                         wr.Close();
                     }
                 }

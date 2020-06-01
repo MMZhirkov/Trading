@@ -75,7 +75,6 @@
     <Compile Include="QScalp\Writer\OwnTradesStream.cs" />
     <Compile Include="QScalp\Writer\QshWriter.cs" />
     <Compile Include="QScalp\Writer\QuotesStream.cs" />
-    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
